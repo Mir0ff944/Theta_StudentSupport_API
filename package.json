@@ -1,7 +1,7 @@
 {
-  "name": "lyx-api",
+  "name": "thetaapi",
   "version": "2.0.0",
-  "description": "Events and performers api that uses data from 3rd party api, combines functions and filters data to make user interaction faster and efficient",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://gitlab.com/Mir0ff944/WebAPIAssignment.git"
+    "url": ""
   },
   "keywords": [
     "api",
@@ -23,28 +23,24 @@
   ],
   "author": "Miroslav Ivanov",
   "bugs": {
-    "url": "https://gitlab.com/Mir0ff944/WebAPIAssignment/issues"
+    "url": "h"
   },
-  "homepage": "https://lyx-api.herokuapp.com/",
+  "homepage": "",
   "dependencies": {
+    "apidoc": "^0.16.1",
     "csprng": "^0.1.1",
-    "jasmine": "^2.5.2",
+    "eslint": "^3.15.0",
+    "istanbul": "^0.4.5",
+    "jasmine": "^2.5.3",
+    "jasmine-node": "^1.14.5",
     "js-schema": "^1.0.1",
+    "jsdoc": "^3.4.3",
     "mongodb": "^2.2.12",
-    "mongoose": "^4.7.0",
+    "mongoose": "^4.8.1",
     "request": "^2.79.0",
     "restify": "^4.1.1",
     "xmlbuilder": "^8.2.2"
   },
   "devDependencies": {
-    "apidoc": "^0.16.1",
-    "csprng": "^0.1.2",
-    "eslint": "^3.8.1",
-    "frisby": "^0.8.5",
-    "istanbul": "^0.4.5",
-    "jasmine": "^2.5.2",
-    "jasmine-node": "^1.14.5",
-    "jsdoc": "^3.4.2",
-    "rewire": "^2.5.2"
   }
 }
