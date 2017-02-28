@@ -8,26 +8,40 @@ server.use(restify.bodyParser())
 server.use(restify.queryParser())
 server.use(restify.authorizationParser())
 
-const timetable = require('') //main module goes here
-const globals = require('.modules/globals.js')
+const timetable = require('./modules/tables') //main module goes here
+const globals = require('./modules/globals') //global variables
 
 const defaultPort = 8080
 
 server.get('/', (req, res, next) => {
-	res.redirect('', next) // the first page to open if nothing is selected
+	res.redirect('/teachers', next) // the first page to open if nothing is selected
 })
 
-server.get('', (req, res) => {
+/**
+ * @api {get} /tables Request teachers timetable sessions from database
+ * @apiGroup tables
+ */
+server.get('/teachers', (req, res) => {
+	timetable.getTeacherSessions(req, (err, data) => {
+		res.setHeader('content-type', globals.format.json)
+		res.setHeader('accepts','GET')
+		if (err) {
+			res.send(globals.badRequestm, {error: err.message})
+		} else {
+			res.send(globals.ok, data)
+		}
+		res.end()
+	})
 
 })
 
-server.get ('', (req, res) => {
+// server.post ('/teachers', (req, res) => {
 
-})
+// })
 
-server.get ('', (req, res) => {
+// server.get ('', (req, res) => {
 
-})
+// })
 
 const port = process.env.PORT || defaultPort
 
