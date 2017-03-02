@@ -14,7 +14,8 @@ const Schema = mongoose.Schema
 const timetableSchema = new Schema ({
 	name: String,
 	email: String,
-	time: String
+	time: String,
+	specialisation: String
 })
 
 const studentSchema = new Schema ({
@@ -35,7 +36,7 @@ const attending = new Schema ({
 	attending: String
 })
 
-exports.Timetable = mongoose.model('Timetable', timetableSchema)
+exports.Sessions = mongoose.model('Sessions', timetableSchema)
 exports.Student = mongoose.model('StudentSchema', studentSchema)
 exports.Teachers = mongoose.model('Teachers', teacherSchema)
 exports.Attending = mongoose.model('Attendings',attending )

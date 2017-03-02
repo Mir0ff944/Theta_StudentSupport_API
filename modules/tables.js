@@ -10,9 +10,11 @@ exports.getTeacherSessions = (request, callback) => {
     .then(err => callback(err))
 }
 
-// exports.addTeacher = (request, callback) => {
-
-// }
+exports.addSessions = (request, callback) => {
+	getHeader(request)
+	.then( () => extractBodyKey(request, 'name')
+	.then 
+}
 
 const getHeader = request => new Promise ((resolve, reject) => {
 	if (request.authorization === undefined || request.authorization.basic === undefined) {

@@ -35,9 +35,9 @@ server.get('/teachers', (req, res) => {
 
 })
 
-// server.post ('/teachers', (req, res) => {
-
-// })
+server.post ('/teachers', (req, res) => {
+	timetable.addSessions
+})
 
 // server.get ('', (req, res) => {
 
