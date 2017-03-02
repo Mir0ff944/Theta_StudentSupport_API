@@ -24,7 +24,7 @@ server.get('/', (req, res, next) => {
 server.get('/sessions', (req, res) => {
 	timetable.getTeacherSessions(req, (err, data) => {
 		res.setHeader('content-type', globals.format.json)
-		res.setHeader('accepts','GET')
+		res.setHeader('accepts','GET', 'POST', 'PUT', 'DELETE')
 		if (err) {
 			res.send(globals.badRequestm, {error: err.message})
 		} else {
@@ -35,8 +35,21 @@ server.get('/sessions', (req, res) => {
 
 })
 
-server.post ('/teachers', (req, res) => {
-	timetable.addSessions
+/**
+ * @api {post} /tables Posts a new session into the timeable
+ * @apiGroup tables
+ */
+server.post ('/sessions', (req, res) => {
+	timetable.addSessions(req, (err, session) => {
+		res.setHeader('content-type', globals.format.json)
+		res.setHeader('accepts','GET', 'POST', 'PUT', 'DELETE')
+		if (err) {
+			res.send(globals.badRequest, {error: err.message})
+		} else {
+			res.send(global.ok, session)
+		}
+		res.end()
+	})
 })
 
 // server.get ('', (req, res) => {

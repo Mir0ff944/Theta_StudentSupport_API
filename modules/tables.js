@@ -10,11 +10,21 @@ exports.getTeacherSessions = (request, callback) => {
     .then(err => callback(err))
 }
 
-// exports.addSessions = (request, callback) => {
-// 	getHeader(request)
-// 	.then( () => extractBodyKey(request, 'name')
-// 	.
-// }
+exports.addSessions = (request, callback) => {
+	getHeader(request)
+	.then ( () => extractBodyKey(request, 'session'))
+	.then(data => {
+		this.name = data.name
+		this.time = data.time
+		console.log(this.name, this.time)
+		return data
+	}).then(session => {
+		this.session = session
+		return filepersist.sessionExists(this.name, this.time)
+	}).then(session => filepersist.addSession(session))
+	.then(session => callback(null, session))
+	.catch(err => callback(err))
+}
 
 const getHeader = request => new Promise ((resolve, reject) => {
 	if (request.authorization === undefined || request.authorization.basic === undefined) {
@@ -28,4 +38,12 @@ const getHeader = request => new Promise ((resolve, reject) => {
 	// console.log(request.authorization)
 	// console.log(`username: ${auth.username}, password: ${auth.password}`)
 	resolve()
+})
+
+const extractBodyKey = (request, key) => new Promise((resolve, reject) => {
+	// console.log(request)	//debuging spec tests
+	// console.log(key)
+	if (request.body === undefined || request.body[key] === undefined)
+		reject(new Error(`missing key ${key} in request body`))
+	resolve(request.body[key])
 })

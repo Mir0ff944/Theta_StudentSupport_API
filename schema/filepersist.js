@@ -10,19 +10,19 @@ exports.getTeachers = () => new Promise((resolve, reject) => {
 	})
 })
 
-exports.addSession = TeacherInformation => new Promise ((resolve, reject ) => {
-	if(!'teacher.name' in TeacherInformation && !'teacher.email' in TeacherInformation && !'teacher.time' in TeacherInformation && !'teacher.specialisation' in TeacherInformation) {
+exports.addSession = SessionInformation => new Promise ((resolve, reject ) => {
+	if(!'sessions.name' in SessionInformation && !'sessions.email' in SessionInformation && !'sessions.time' in SessionInformation && !'sessions.specialisation' in SessionInformation) {
 		reject(new Error('invalid information'))
 	}
-	const teachers = new schema.Teachers(TeacherInformation)
+	const sessions = new schema.Teachers(SessionInformation)
 
-	teachers.save( (err, teacher) => {
+	sessions.save( (err, teacher) => {
 		if (err) {
 			reject(new Error('Error while adding teacher'))
 		}
 		resolve(teacher)
 	})
-	resolve({teachers})
+	resolve({sessions})
 })
 
 exports.updateSession = (name, time) => new Promise((resolve, reject) => {
