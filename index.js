@@ -14,7 +14,7 @@ const globals = require('./modules/globals') //global variables
 const defaultPort = 8080
 
 server.get('/', (req, res, next) => {
-	res.redirect('/teachers', next) // the first page to open if nothing is selected
+	res.redirect('/sessions', next) // the first page to open if nothing is selected
 })
 
 /**
