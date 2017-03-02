@@ -21,7 +21,7 @@ server.get('/', (req, res, next) => {
  * @api {get} /tables Request teachers timetable sessions from database
  * @apiGroup tables
  */
-server.get('/teachers', (req, res) => {
+server.get('/sessions', (req, res) => {
 	timetable.getTeacherSessions(req, (err, data) => {
 		res.setHeader('content-type', globals.format.json)
 		res.setHeader('accepts','GET')
