@@ -41,6 +41,18 @@ exports.sessionExists = (name, time) => new Promise( (resolve, reject) => {
 	})
 })
 
-// exports.attending = () => new Promise((resolve, reject) => {
-// 	 schema.Attending.createIndex()
-// })
+exports.getDetailsTeachers = details => new Promise( (resolve, reject) => {
+	schema.Teachers.find({username: details.username}, (err, docs) => {
+		if(err) reject(new Error('database error'))
+		if(docs.length) resolve(docs)
+		reject(new Error('invalid username'))
+	})
+})
+
+exports.getDetailsStudent = details => new Promise( (resolve, reject) => {
+	schema.Student.find({username: details.username}, (err, docs) => {
+		if(err) reject(new Error('database error'))
+		if(docs.length) resolve(docs)
+		reject(new Error('invalid username'))
+	})
+})

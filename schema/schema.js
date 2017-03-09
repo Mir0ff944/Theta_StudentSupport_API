@@ -11,6 +11,7 @@ mongoose.connect(`mongodb://${db.user}:${db.password}@ds055852.mlab.com:55852/30
 mongoose.Promise = global.Promise
 const Schema = mongoose.Schema
 
+
 const timetableSchema = new Schema ({
 	name: String,
 	email: String,
@@ -18,16 +19,15 @@ const timetableSchema = new Schema ({
 	specialisation: String
 })
 
-const studentSchema = new Schema ({
-	sname: String,
-	semail: String,
-	sid: Number,
-})
-
-const teacherSchema = new Schema ({
+const studentUserSchema = new Schema ({
 	name: String,
 	email: String,
-	time: String,
+	id: Number,
+})
+
+const teacherUserSchema = new Schema ({
+	name: String,
+	email: String,
 	specialisation: String
 
 })
@@ -37,8 +37,8 @@ const attending = new Schema ({
 })
 
 exports.Sessions = mongoose.model('Sessions', timetableSchema)
-exports.Student = mongoose.model('StudentSchema', studentSchema)
-exports.Teachers = mongoose.model('Teachers', teacherSchema)
+exports.Student = mongoose.model('StudentSchema', studentUserSchema)
+exports.Teachers = mongoose.model('Teachers', teacherUserSchema)
 exports.Attending = mongoose.model('Attendings',attending )
 
 
