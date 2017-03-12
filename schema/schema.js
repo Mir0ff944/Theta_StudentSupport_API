@@ -37,7 +37,7 @@ const attending = new Schema ({
 })
 
 exports.Sessions = mongoose.model('Sessions', timetableSchema)
-exports.Student = mongoose.model('StudentSchema', studentUserSchema)
+exports.Student = mongoose.model('Student', studentUserSchema)
 exports.Teachers = mongoose.model('Teachers', teacherUserSchema)
 exports.Attending = mongoose.model('Attendings',attending )
 

@@ -1,11 +1,10 @@
 'use strict'
 
 const filepersist = require('../schema/filepersist')
-const bcrypt = require('bcrypt')
-const passlen = 10
+const utility = require('./utility')
 
 exports.getTeacherSessions = (request, callback) => {
-	getHeader(request)
+	utility.getHeader(request)
 	.then( () => filepersist.getTeachers())
 	.then(console.log('showing favorites'))
     .then(data => callback(null, data))
@@ -13,8 +12,8 @@ exports.getTeacherSessions = (request, callback) => {
 }
 
 exports.addSessions = (request, callback) => {
-	getHeader(request)
-	.then ( () => extractBodyKey(request, 'session'))
+	utility.getHeader(request)
+	.then ( () => utility.extractBodyKey(request, 'session'))
 	.then(data => {
 		this.name = data.name
 		this.time = data.time
@@ -29,45 +28,45 @@ exports.addSessions = (request, callback) => {
 }
 
 exports.addAttending = (request, callback) => {
-	getHeader(request).then( details => {
+	utility.getHeader(request).then( details => {
 		this.username = details.username
 		this.password = details.username
-		return hashPassword(details)
+		return utility.hashPassword(details)
 	})
 }
 
-const getHeader = request => new Promise ((resolve, reject) => {
-	if (request.authorization === undefined || request.authorization.basic === undefined) {
-		reject(new Error('Missing authorization'))
-	}
-	const auth = request.authorization.basic
+exports.addUserTeacher = (request, callback) => {
+	let data
 
-	if (auth.username === undefined || auth.password === undefined) {
-		reject({username: auth.username, password: auth.password})
-	}
-	// console.log(request.authorization)
-	// console.log(`username: ${auth.username}, password: ${auth.password}`)
-	resolve()
-})
+	utility.getHeader(request).then( details => utility.hashPassword(details)
+	).then ( details => {
+		data = details
+		return filepersist.accountExists(details)
+	}).then ( () => utility.extractBodyKey(request, 'name')
+	).then ( name => {
+		data.name = name
+		return filepersist.addUserTeacher(data)
+	}).then( data => {
+		callback(null, data)
+	}).catch( err => {
+		callback(err)
+	})
+}
 
-const extractBodyKey = (request, key) => new Promise((resolve, reject) => {
-	// console.log(request)	//debuging spec tests
-	// console.log(key)
-	if (request.body === undefined || request.body[key] === undefined)
-		reject(new Error(`missing key ${key} in request body`))
-	resolve(request.body[key])
-})
+exports.addUserStudent = (request, callaback) => {
+	let data
 
-const hashPassword = details => new Promise( (resolve, reject) => {
-	const salt = bcrypt.genSaltSync(passlen)
-
-	details.password = bcrypt.hashSync(details.password, salt)
-	resolve(details)
-})
-
-const checkPassword = (provided, stored) => new Promise( (resolve, reject) => {
-	if (!bcrypt.compareSync(provided, stored)) {
-		reject(new Error('invalid password'))
-	}
-	resolve()
-})
+	utility.getHeader(request).then ( details => utility.hashPassword(details)
+	).then( details => {
+		data = details
+		return filepersist.accountExists(details)
+	}).then ( () => utility.extractBodyKey(request, 'name')
+	).then( name => {
+		data.name = name
+		return filepersist.addUserStudent(data)
+	}).then( data => {
+		callaback(null, data)
+	}).catch ( err => {
+		callaback(err)
+	})
+}

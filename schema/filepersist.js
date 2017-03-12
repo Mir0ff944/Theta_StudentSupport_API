@@ -56,3 +56,47 @@ exports.getDetailsStudent = details => new Promise( (resolve, reject) => {
 		reject(new Error('invalid username'))
 	})
 })
+
+exports.addUserTeacher = details => new Promise ( (resolve, reject) => {
+	if (!'username' in details && !'password' in details && !'name' in details) {
+		reject(new Error('invalid user object'))
+	}
+	const user = new schema.Teachers(details)
+
+	user.save ( (err, user) => {
+		if (err) {
+			reject(new Error('error creating account'))
+		}
+		if (user.length)
+			delete details.password
+		resolve(details)
+	})
+})
+
+exports.addUser = details => new Promise ( (resolve, reject) => {
+	if (!'username' in details && !'password' in details && !'name' in details) {
+		reject(new Error('invalid user object'))
+	}
+	const user = new schema.Teachers(details)
+
+	user.save ( (err, user) => {
+		if (err) {
+			reject(new Error('error creating account'))
+		}
+		if (user.length)
+			delete details.password
+		resolve(details)
+	})
+})
+
+exports.accountExists = account => new Promise (( resolve, reject) => {
+	if (schema.Teachers.find({username: account.username}, (err, docs) => {
+		if (err) reject(new Error('user Teacher database error'))
+		if (docs.length) reject(new Error('User teacher account already exists'))
+	})) resolve()
+	else if (schema.Student.find({username: account.username}, (err, docs) => {
+		if (err) reject(new Error('user Student database error'))
+		if (docs.length) reject(new Error('User student account already exists'))
+	})) resolve()
+	else reject(new Error('connecton - user database error'))
+})
