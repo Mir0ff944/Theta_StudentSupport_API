@@ -8,7 +8,7 @@ server.use(restify.bodyParser())
 server.use(restify.queryParser())
 server.use(restify.authorizationParser())
 
-const timetable = require('./modules/tables') //main module goes here
+const tables = require('./modules/tables') //main module goes here
 const globals = require('./modules/globals') //global variables
 
 const defaultPort = 8080
@@ -18,11 +18,11 @@ server.get('/', (req, res, next) => {
 })
 
 /**
- * @api {get} /tables Request teachers timetable sessions from database
+ * @api {get} /tables Request teachers tables sessions from database
  * @apiGroup tables
  */
 server.get('/sessions', (req, res) => {
-	timetable.getTeacherSessions(req, (err, data) => {
+	tables.getSessions(req, (err, data) => {
 		res.setHeader('content-type', globals.format.json)
 		res.setHeader('accepts','GET', 'POST', 'PUT', 'DELETE')
 		if (err) {
@@ -34,13 +34,12 @@ server.get('/sessions', (req, res) => {
 	})
 
 })
-
 /**
  * @api {post} /tables Posts a new session into the timeable
  * @apiGroup tables
  */
 server.post ('/sessions', (req, res) => {
-	timetable.addSessions(req, (err, session) => {
+	tables.addSessions(req, (err, session) => {
 		res.setHeader('content-type', globals.format.json)
 		res.setHeader('accepts','GET', 'POST', 'PUT', 'DELETE')
 		if (err) {
@@ -52,9 +51,57 @@ server.post ('/sessions', (req, res) => {
 	})
 })
 
-// server.get ('', (req, res) => {
+server.post('/session', (req, res) => {
+	tables.addSessions(req, (err, data) => {
+		res.setHeader('content-type', 'application/json')
+		res.setHeader('accepts', 'GET', 'POST')
+		if (err) {
+			res.send(globals.badRequest, {error: err.message})
+		} else {
+			res.send(globals.created, {session: data})
+		}
+		res.end()
+	})
+})
 
-// })
+server.get('/cart', (req, res) => {
+	tables.getSessions(req, (err, data) => {
+		res.setHeader('content-type', 'application/json')
+		res.setHeader('accepts', 'GET', 'POST')
+		if (err) {
+			res.send(global.badRequest, {error: err.message})
+		} else {
+			res.send(globals.created, {session: data})
+		}
+		res.end()
+	})
+})
+
+server.post('/teacherUsers', (req, res) => {
+	tables.addUserTeacher(req, (err, data) => {
+		res.setHeader('content-type','application/json')
+		res.setHeader('accepts', 'GET', 'POST')
+		if (err) {
+			res.send(globals.badRequest, {error: err.message})
+		} else {
+			res.send(globals.created, {user: data})
+		}
+		res.end()
+	})
+})
+
+server.post('/studentUsers', (req, res) => {
+	tables.addUserStudent(req, (err, data) => {
+		res.setHeader('content-type','application/json')
+		res.setHeader('accepts', 'GET', 'POST')
+		if (err) {
+			res.send(globals.badRequest, {error: err.message})
+		} else {
+			res.send(globals.created, {user: data})
+		}
+		res.end()
+	})
+})
 
 const port = process.env.PORT || defaultPort
 

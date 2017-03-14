@@ -3,7 +3,7 @@
 const filepersist = require('../schema/filepersist')
 const utility = require('./utility')
 
-exports.getTeacherSessions = (request, callback) => {
+exports.getSessions = (request, callback) => {
 	utility.getHeader(request)
 	.then( () => filepersist.getTeachers())
 	.then(console.log('showing favorites'))
@@ -27,13 +27,13 @@ exports.addSessions = (request, callback) => {
 	.catch(err => callback(err))
 }
 
-exports.addAttending = (request, callback) => {
-	utility.getHeader(request).then( details => {
-		this.username = details.username
-		this.password = details.username
-		return utility.hashPassword(details)
-	})
-}
+// exports.addAttending = (request, callback) => {
+// 	utility.getHeader(request).then( details => {
+// 		this.username = details.username
+// 		this.password = details.username
+// 		return utility.hashPassword(details)
+// 	}).then()
+// }
 
 exports.addUserTeacher = (request, callback) => {
 	let data
