@@ -11,7 +11,6 @@ exports.status = {
 	methodNotAllowed: 405,			// the method specified is not allowed on the resource
 	notAcceptable: 406,					// not able to supply the required respresentation
 	unsupportedMediaType: 415,		// the request body format is not valid
-	test: 412
 }
 
 /* the MIME types supported by the API */
