@@ -4,16 +4,16 @@ const filepersist = require('../schema/filepersist')
 const utility = require('./utility')
 
 exports.getSessions = (request, callback) => {
-	utility.getHeader(request)
-	.then( () => filepersist.getTeachers())
+	// utility.getHeader(request)
+	filepersist.getTeachers()
 	.then(console.log('showing favorites'))
     .then(data => callback(null, data))
     .then(err => callback(err))
 }
 
 exports.addSessions = (request, callback) => {
-	utility.getHeader(request)
-	.then ( () => utility.extractBodyKey(request, 'session'))
+	// utility.getHeader(request)
+	 utility.extractBodyKey(request, 'session')
 	.then(data => {
 		this.name = data.name
 		this.time = data.time
