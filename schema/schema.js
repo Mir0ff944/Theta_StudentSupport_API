@@ -2,8 +2,8 @@
 
 const mongoose = require('mongoose')
 const db = {
-	user: 'Miroff',
-	password: '0N0LRFX772277A'
+	user: 'miroff',
+	password: 'passwordhuehue'
 }
 
 
@@ -15,7 +15,9 @@ const Schema = mongoose.Schema
 const timetableSchema = new Schema ({
 	name: String,
 	email: String,
-	time: String,
+	date: String,
+	start_time: String,
+	end_time: String,
 	specialisation: String
 })
 
