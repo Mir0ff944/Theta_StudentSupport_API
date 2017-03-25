@@ -41,25 +41,25 @@ exports.sessionExists = (name, time) => new Promise( (resolve, reject) => {
 	})
 })
 
-exports.getDetailsTeachers = details => new Promise( (resolve, reject) => {
-	schema.Teachers.find({username: details.username}, (err, docs) => {
-		if(err) reject(new Error('database error'))
-		if(docs.length) resolve(docs)
-		reject(new Error('invalid username'))
-	})
-})
-
-exports.getDetailsStudent = details => new Promise( (resolve, reject) => {
-	schema.Student.find({username: details.username}, (err, docs) => {
-		if(err) reject(new Error('database error'))
-		if(docs.length) resolve(docs)
-		reject(new Error('invalid username'))
-	})
-})
+// exports.getDetailsTeachers = details => new Promise( (resolve, reject) => {
+// 	schema.Teachers.find({username: details.username}, (err, docs) => {
+// 		if(err) reject(new Error('database error'))
+// 		if(docs.length) resolve(docs)
+// 		reject(new Error('invalid username'))
+// 	})
+// })
+//
+// exports.getDetailsStudent = details => new Promise( (resolve, reject) => {
+// 	schema.Student.find({username: details.username}, (err, docs) => {
+// 		if(err) reject(new Error('database error'))
+// 		if(docs.length) resolve(docs)
+// 		reject(new Error('invalid username'))
+// 	})
+// })
 
 exports.addUserTeacher = details => new Promise ( (resolve, reject) => {
 	if (!'username' in details && !'password' in details && !'name' in details) {
-		reject(new Error('invalid user object'))
+		reject(new Error('missing name/pass parameter'))
 	}
 	const user = new schema.Teachers(details)
 
@@ -92,11 +92,11 @@ exports.addUser = details => new Promise ( (resolve, reject) => {
 exports.accountExists = account => new Promise (( resolve, reject) => {
 	if (schema.Teachers.find({username: account.username}, (err, docs) => {
 		if (err) reject(new Error('user Teacher database error'))
-		if (docs.length) reject(new Error('User teacher account already exists'))
+		if (docs.length) reject(new Error(`Teacher account "${username}" already exists`))
 	})) resolve()
 	else if (schema.Student.find({username: account.username}, (err, docs) => {
 		if (err) reject(new Error('user Student database error'))
-		if (docs.length) reject(new Error('User student account already exists'))
+		if (docs.length) reject(new Error(`Student account "${username}" already exists`))
 	})) resolve()
 	else reject(new Error('connecton - user database error'))
 })
