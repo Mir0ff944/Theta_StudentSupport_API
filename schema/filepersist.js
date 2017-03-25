@@ -73,11 +73,11 @@ exports.addUserTeacher = details => new Promise ( (resolve, reject) => {
 	})
 })
 
-exports.addUser = details => new Promise ( (resolve, reject) => {
+exports.addUserStudent = details => new Promise ( (resolve, reject) => {
 	if (!'username' in details && !'password' in details && !'name' in details) {
-		reject(new Error('invalid user object'))
+		reject(new Error('missing name/pass parameter'))
 	}
-	const user = new schema.Teachers(details)
+	const user = new schema.Student(details)
 
 	user.save ( (err, user) => {
 		if (err) {
