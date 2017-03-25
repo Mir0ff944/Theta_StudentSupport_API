@@ -2,7 +2,7 @@
 
 const schema = require('./schema')
 
-exports.getTeachers = () => new Promise((resolve, reject) => {
+exports.getSessions = () => new Promise((resolve, reject) => {
 	schema.Sessions.find((err, sessions ) => {
 		if (err) reject(new Error('database error'))
 		if (!sessions.length) reject(new Error('sessions list is empty'))
@@ -99,4 +99,15 @@ exports.accountExists = account => new Promise (( resolve, reject) => {
 		if (docs.length) reject(new Error(`Student account "${username}" already exists`))
 	})) resolve()
 	else reject(new Error('connecton - user database error'))
+})
+
+exports.clearAccounts = () => new Promise ( (resolve, reject) => {
+	schema.Teachers.deleteMany({password: "passwordd34"}, (err, teachers) => {
+		if (err) reject(new Error('teacher collection error'))
+		if (!teachers.length) resolve ('teacher collection has been deleted')
+	})
+	schema.Student.deleteMany({password: "passwordd34"}, (err, student) => {
+		if (err) reject(new Error('student collection error'))
+		if (!student.length) resolve ('student collection has been deleted')
+	})
 })
