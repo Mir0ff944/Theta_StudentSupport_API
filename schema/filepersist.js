@@ -14,7 +14,7 @@ exports.addSession = SessionInformation => new Promise ((resolve, reject ) => {
 	if(!'sessions.name' in SessionInformation && !'sessions.email' in SessionInformation && !'sessions.time' in SessionInformation && !'sessions.specialisation' in SessionInformation) {
 		reject(new Error('invalid information'))
 	}
-	const sessions = new schema.Teachers(SessionInformation)
+	const sessions = new schema.Sessions(SessionInformation)
 
 	sessions.save( (err, teacher) => {
 		if (err) {
@@ -92,21 +92,21 @@ exports.addUserStudent = details => new Promise ( (resolve, reject) => {
 exports.accountExists = account => new Promise (( resolve, reject) => {
 	if (schema.Teachers.find({username: account.username}, (err, docs) => {
 		if (err) reject(new Error('user Teacher database error'))
-		if (docs.length) reject(new Error(`Teacher account "${username}" already exists`))
+		if (docs.length) reject(new Error(`Teacher account "${account.username}" already exists`))
 	})) resolve()
 	else if (schema.Student.find({username: account.username}, (err, docs) => {
 		if (err) reject(new Error('user Student database error'))
-		if (docs.length) reject(new Error(`Student account "${username}" already exists`))
+		if (docs.length) reject(new Error(`Student account "${account.username}" already exists`))
 	})) resolve()
 	else reject(new Error('connecton - user database error'))
 })
 
 exports.clearAccounts = () => new Promise ( (resolve, reject) => {
-	schema.Teachers.deleteMany({password: "passwordd34"}, (err, teachers) => {
+	schema.Teachers.deleteMany({'name': 'Testname'}, (err, teachers) => {
 		if (err) reject(new Error('teacher collection error'))
 		if (!teachers.length) resolve ('teacher collection has been deleted')
 	})
-	schema.Student.deleteMany({password: "passwordd34"}, (err, student) => {
+	schema.Student.deleteMany({'name': 'Testname'}, (err, student) => {
 		if (err) reject(new Error('student collection error'))
 		if (!student.length) resolve ('student collection has been deleted')
 	})

@@ -64,18 +64,18 @@ server.post('/session', (req, res) => {
 	})
 })
 
-server.get('/cart', (req, res) => {
-	tables.getSessions(req, (err, data) => {
-		res.setHeader('content-type', 'application/json')
-		res.setHeader('accepts', 'GET', 'POST')
-		if (err) {
-			res.send(global.badRequest, {error: err.message})
-		} else {
-			res.send(globals.created, {session: data})
-		}
-		res.end()
-	})
-})
+// server.get('/cart', (req, res) => {
+// 	tables.getSessions(req, (err, data) => {
+// 		res.setHeader('content-type', 'application/json')
+// 		res.setHeader('accepts', 'GET', 'POST')
+// 		if (err) {
+// 			res.send(global.badRequest, {error: err.message})
+// 		} else {
+// 			res.send(globals.created, {session: data})
+// 		}
+// 		res.end()
+// 	})
+// })
 
 server.post('/teacherUsers', (req, res) => {
 	tables.addUserTeacher(req, (err, data) => {
