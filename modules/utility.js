@@ -9,12 +9,14 @@ exports.getHeader = request => new Promise ((resolve, reject) => {
 	}
 	const auth = request.authorization.basic
 
+	console.log('utility', auth)
+
 	if (auth.username === undefined || auth.password === undefined) {
 		reject({username: auth.username, password: auth.password})
 	}
 	// console.log(request.authorization)
 	// console.log(`username: ${auth.username}, password: ${auth.password}`)
-	resolve()
+	resolve(auth)
 })
 
 exports.extractBodyKey = (request, key) => new Promise((resolve, reject) => {

@@ -5,7 +5,7 @@ const utility = require('./utility')
 
 exports.getSessions = (request, callback) => {
 	// utility.getHeader(request)
-	filepersist.getTeachers()
+	filepersist.getSessions()
 	.then(console.log('showing favorites'))
     .then(data => callback(null, data))
     .then(err => callback(err))
@@ -38,8 +38,12 @@ exports.addSessions = (request, callback) => {
 exports.addUserTeacher = (request, callback) => {
 	let data
 
-	utility.getHeader(request).then( details => utility.hashPassword(details)
-	).then ( details => {
+	utility.getHeader(request).then( details => {
+		console.log('tables', details)
+
+		return utility.hashPassword(details)
+	}).then ( details => {
+		console.log('tables 1', details)
 		data = details
 		return filepersist.accountExists(details)
 	}).then ( () => utility.extractBodyKey(request, 'name')

@@ -2,7 +2,7 @@
 
 const schema = require('./schema')
 
-exports.getTeachers = () => new Promise((resolve, reject) => {
+exports.getSessions = () => new Promise((resolve, reject) => {
 	schema.Sessions.find((err, sessions ) => {
 		if (err) reject(new Error('database error'))
 		if (!sessions.length) reject(new Error('sessions list is empty'))
@@ -14,7 +14,7 @@ exports.addSession = SessionInformation => new Promise ((resolve, reject ) => {
 	if(!'sessions.name' in SessionInformation && !'sessions.email' in SessionInformation && !'sessions.time' in SessionInformation && !'sessions.specialisation' in SessionInformation) {
 		reject(new Error('invalid information'))
 	}
-	const sessions = new schema.Teachers(SessionInformation)
+	const sessions = new schema.Sessions(SessionInformation)
 
 	sessions.save( (err, teacher) => {
 		if (err) {
@@ -41,25 +41,25 @@ exports.sessionExists = (name, time) => new Promise( (resolve, reject) => {
 	})
 })
 
-exports.getDetailsTeachers = details => new Promise( (resolve, reject) => {
-	schema.Teachers.find({username: details.username}, (err, docs) => {
-		if(err) reject(new Error('database error'))
-		if(docs.length) resolve(docs)
-		reject(new Error('invalid username'))
-	})
-})
-
-exports.getDetailsStudent = details => new Promise( (resolve, reject) => {
-	schema.Student.find({username: details.username}, (err, docs) => {
-		if(err) reject(new Error('database error'))
-		if(docs.length) resolve(docs)
-		reject(new Error('invalid username'))
-	})
-})
+// exports.getDetailsTeachers = details => new Promise( (resolve, reject) => {
+// 	schema.Teachers.find({username: details.username}, (err, docs) => {
+// 		if(err) reject(new Error('database error'))
+// 		if(docs.length) resolve(docs)
+// 		reject(new Error('invalid username'))
+// 	})
+// })
+//
+// exports.getDetailsStudent = details => new Promise( (resolve, reject) => {
+// 	schema.Student.find({username: details.username}, (err, docs) => {
+// 		if(err) reject(new Error('database error'))
+// 		if(docs.length) resolve(docs)
+// 		reject(new Error('invalid username'))
+// 	})
+// })
 
 exports.addUserTeacher = details => new Promise ( (resolve, reject) => {
 	if (!'username' in details && !'password' in details && !'name' in details) {
-		reject(new Error('invalid user object'))
+		reject(new Error('missing name/pass parameter'))
 	}
 	const user = new schema.Teachers(details)
 
@@ -73,11 +73,11 @@ exports.addUserTeacher = details => new Promise ( (resolve, reject) => {
 	})
 })
 
-exports.addUser = details => new Promise ( (resolve, reject) => {
+exports.addUserStudent = details => new Promise ( (resolve, reject) => {
 	if (!'username' in details && !'password' in details && !'name' in details) {
-		reject(new Error('invalid user object'))
+		reject(new Error('missing name/pass parameter'))
 	}
-	const user = new schema.Teachers(details)
+	const user = new schema.Student(details)
 
 	user.save ( (err, user) => {
 		if (err) {
@@ -92,11 +92,22 @@ exports.addUser = details => new Promise ( (resolve, reject) => {
 exports.accountExists = account => new Promise (( resolve, reject) => {
 	if (schema.Teachers.find({username: account.username}, (err, docs) => {
 		if (err) reject(new Error('user Teacher database error'))
-		if (docs.length) reject(new Error('User teacher account already exists'))
+		if (docs.length) reject(new Error(`Teacher account "${account.username}" already exists`))
 	})) resolve()
 	else if (schema.Student.find({username: account.username}, (err, docs) => {
 		if (err) reject(new Error('user Student database error'))
-		if (docs.length) reject(new Error('User student account already exists'))
+		if (docs.length) reject(new Error(`Student account "${account.username}" already exists`))
 	})) resolve()
 	else reject(new Error('connecton - user database error'))
+})
+
+exports.clearAccounts = () => new Promise ( (resolve, reject) => {
+	schema.Teachers.deleteMany({'name': 'Testname'}, (err, teachers) => {
+		if (err) reject(new Error('teacher collection error'))
+		if (!teachers.length) resolve ('teacher collection has been deleted')
+	})
+	schema.Student.deleteMany({'name': 'Testname'}, (err, student) => {
+		if (err) reject(new Error('student collection error'))
+		if (!student.length) resolve ('student collection has been deleted')
+	})
 })
