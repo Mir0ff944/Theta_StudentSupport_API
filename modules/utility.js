@@ -40,3 +40,5 @@ exports.checkPassword = (provided, stored) => new Promise( (resolve, reject) => 
 	}
 	resolve()
 })
+
+dasdadasd
